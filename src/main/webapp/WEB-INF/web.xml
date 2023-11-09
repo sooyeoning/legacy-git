@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- 1 스프링 프레임워크가 동작하려면 web.xml 파일에 스프링 설정 파일을 기록해놔야 한다-->
+
+	<!-- 설정 파일로 사용될 root-context.xml 위치 명시 -->
+	<!-- contextConfigLocation: 리스너가 동작하기 위해 필요한 설정파일의 위치-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<!-- ContextLoaderListener : 스프링 설정파일 읽어들인다, 서블릿과 필터에서 공유되는 스프링 컨테이너를 만든다 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- DispatcherServlet 서블릿과 서블릿 설정 파일 위치 -->
+	<servlet>
+		<!-- 서블릿 별칭-->
+		<servlet-name>appServlet</servlet-name>
+		<!-- 실제 서블릿 -->
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<!-- DispatcherServlet은 <param-value>파일의 내용을 읽어서 동작한다-->
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<!-- 서블릿 컨테이너가 서블릿을 언제 만들고 초기화할지, 그 순서는 어떻게 되는지 지정하는 정수 값-->
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<!-- servlet-mapping: 어떤 서블릿이 어떤 url에서 동작하는지 정의하는것-->
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- 한글설정 -->
+	<filter>
+	<filter-name>encodingFilter</filter-name>
+	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	<init-param>
+		<param-name>encoding</param-name>
+		<param-value>UTF-8</param-value>
+	</init-param>
+	<init-param>
+		<param-name>forceEncoding</param-name>
+		<param-value>true</param-value>
+	</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 한글설정 END -->
+</web-app>
+
+<!--
+구동 순서
+1 웹 애플리케이션이 실행되면 TOMCAT(WAS)에 의해 WEB.XML 로딩
+* WAS: 동적 데이터를 만들어 보내는 역할
+2 WEB.XML에 등록된 ServletContainer가 ContextLoaderListener 생성
+* ContextLoaderListener: web.xml에 설정 파일
+3 ContextLoaderListener가 root-context.xml을 로딩(공통 빈)
+4 ROOT-CONTEXT.XML에 등록된 설정에 따라 spring container(ROOT)가 구동
+5 클라이언트로부터 WEB application 요청
+6 DispatcherServlet 생성
+7 DispatcherServlet이 servlet-context.xml을 로딩
+8 두번째 Spring Container가 구동되며, 응답에 맞는 Controller들이 동작
+
+-->
+
+<!-- war/jar
+  WAR: 웹 애플리케이션을 압축파일로 만들어서 톰캣(WAS)에서 실행하는 방식
+  ㄴ 웹서버(WEB) OR 웹컨테이너(WAS) 필요, 사전 정의된 구조(WEB-INF, META-INF), 웹 관련 자원 포함(JSP, Servlet, html, javascript..)
+  JAR: 자바 애플리케이션을 압축한 파일, jre만 있어도 실행 가능함
+  SDK: 소프트웨어 개발 키트
+  JDK: 자바 개발 키트(JRE+javac(자바 컴파일러), 디버거)
+  JRE: 자바 실행 환경(프로그램 실행을 위해 클래스 파일 로드, 메모리 및 리소스 확보)
+  ㄴ JVM을 동작하는데 필요한 자바 라이브러리 포함
+  JVM: 자바 바이트코드를 실행(= 바이트코드 -> 기계어 로 변환)시켜주는 가상 머신
+  JVM 구성
+  1 자바 인터프리터: 자바 컴파일러에 의해 변환된 바이트코드를 읽고 해석하는 역할
+  2 클래스 로더: 동적으로 클래스를 로딩해주는 역할
+  3 JIT 컴파일러: 프로그램 실행중인 런타임에 바이트코드 -> 기계어 변환
+  4 가비지 컬렉터: 미사용중인 힙 영역에 동적으로 할당된 불필요한 메모리(객체) 자동 회수
+  * 컴파일러(javac.exe): 자바소스코드 .java -> 바이트코드 .class
+
+  동적할당, 정적할당, 메모리영역!
+  https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=star7sss&logNo=220851224606
+  https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=eludien&logNo=221462352935
+  * 동적할당: 프로그램 실행 도중 프로그래머가 메모리 할당 요청 -> 운영체제에서 메모리 확보하는 방법(스택/힙)
+  * 힙영역: 운영체제가 운영하는 메모리 공간(순차x -> 선입선출), 멤버변수
+  * 스택영역: 후입선출 -> 지역변수, 매개변수(함수가 시작되면 변수 생성 -> 끝나면 변수 삭제 = 동적 메모리/ 정적 할당)
+  * 정적할당: 컴파일 단계에서 메모리 확보(Code/Data)
+  * Code 영역:
+  ARTIFACT: 프로젝트 이름
+ -->

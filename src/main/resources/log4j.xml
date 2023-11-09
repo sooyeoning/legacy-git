@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Appenders : 로그를 어디에 기록할지-->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<!-- layout : 로그를 어떤 방식으로 기록할지 -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- Logger Level : 로그의 중요도 - 일반적으로 개발할때 info 이하 레벨, 운영시 error/warn 이상 -->
+	<!-- FATAL > ERROR > WARN > INFO > DEBUG > TRANCE -->
+	<!-- Application Loggers -->
+	<logger name="kr.co.urbancode">
+		<level value="debug" />
+	</logger>
+	
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="org.springframework.beans">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="org.springframework.context">
+		<level value="debug" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="debug" />
+	</logger>
+
+	<!-- Root Logger -->
+	<root>
+		<priority value="debug" />
+		<appender-ref ref="console" />
+	</root>
+	
+</log4j:configuration>
+
+<!--
+ Log4j → Logback → Log4j2
+
+ *log4j: 가장 오래된 로깅 프레임워크
+  구성: Logger(출력할 메시지를 Appender에게 전달), Appender(전달된 로그를 어디에 출력할지 결정), Layout(로그을 어떤 형식으로 출력할지 결정)
+  로그레벨: fatal-error-warn-info-debug-trace
+
+ *slf4j : logger의 추상체(인터페이스)
+ - slf4j 인터페이스를 사용해서 로깅하게 되면 구현체(logback, log4j)로 마이그레이션(변경) 할 수 있다
+
+ *logback: log4j의 향상된 버전, slf4j의 구현체이자 spring boot의 기본 로그
+ - auto reloading 기능을 제공하여 별도 재시작없이 변경된 설정 사용가능
+ - 모든 사용자에게 버그가 생긴 게 아니고 특정 버그만 생길 경우 특정 사용자의 특정 조건 로그레벨만 변경하는 필터 정책 사용 가능
+-->

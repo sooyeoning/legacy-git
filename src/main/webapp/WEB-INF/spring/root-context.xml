@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- dataSource: db 연결정보를 저장-->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName"  value="org.mariadb.jdbc.Driver"></property><!-- -->
+		<property name="url" value="jdbc:mariadb://urbancode.myqnapcloud.com:3306/withtravel"></property><!-- db가 위치한 url (db명)-->
+		<property name="username" value="suk"></property><!-- db 유저 이름-->
+		<property name="password" value="ghdtjr2@"></property><!-- db 비밀번호-->
+	</bean>
+
+	<!-- 세션팩토리-->
+	<!-- dataSource를 이용해서 mariadb 서버와 마이바티스 연결해준다, 세션 생성 -->
+	<!-- 2. sql세션(sql쿼리문 사용) 생성, 세션 사용 후 연결을 close하는건 직접 개발자가 해야한다.
+		    commit/rollback 개발자가 해야함-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 마이바티스-스프링 연동 모듈에서는 sqlSessionFactoryBean을 사용해서 sqlSessionFactory를 생성한다-->
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:/mybatis-config.xml" /><!-- 마이바티스 실행시 필요한 설정 파일-->
+		<property name="mapperLocations" value="classpath:/mappers/*Mapper.xml" /><!-- 매퍼와 관련된 자원의 위치 알려준다-->
+	</bean>
+
+<!--세션템플릿 -->
+	<!-- 3.템플릿은 SqlSession인터페이스를 구현한 클래스로 트랜잭션 (나 쓰레드 안정성을 보장하고 )데이터 연결과 종료를 책임짐 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+</beans>
+
+<!-- root-context.xml : 모든 서블릿이 공유하는 bean이 모인 공간으로 공통 빈 설정
+                        jsp(view)와 관련없는 bean 설정하고 mvc 설정과 관련된 여러 처리를 담당
+     DB 연결, mybatis 설정, 세션 생성
+-->

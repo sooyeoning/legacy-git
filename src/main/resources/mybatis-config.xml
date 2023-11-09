@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 마이바티스 기본 설정을 작성해놓는 파일 -->
+
+    <!-- 별칭 작성 부분: Mapper.xml 파일에서 returntype 작성방법을 결정한다
+     typealiase 사용 안하면 returntype='패키지명.클래스명'
+     typealiase 사용하면 returntype=별명
+     -->
+    <typeAliases>
+        <!--  <typeAlias></typeAlias>  -->
+    </typeAliases>
+
+</configuration>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- mapper.xml 과 mapper 연결-->
+<!-- 풀클래스명 사용시 <mapper namespace="kr.co.urbancode.mapper.PlaceMapper">
+-->
+<mapper namespace="mapper.PlaceMapper">
+
+    <select id="selectOnePlace" parameterType="int" resultType="kr.co.urbancode.dto.PlaceDTO">
+        select contentId,
+               title,
+               areaCode,
+               image1,
+               image2,
+               address,
+               mapx,
+               mapy,
+               contents,
+               theme,
+               writingtime,
+               likecnt,
+               viewcnt,
+               homepage,
+               contenttypeid
+        from place
+        where contentId = #{contentId}
+    </select>
+
+</mapper>
