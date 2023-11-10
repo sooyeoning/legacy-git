@@ -25,7 +25,7 @@
 	</bean>
 
 <!--세션템플릿 -->
-	<!-- 3.템플릿은 SqlSession인터페이스를 구현한 클래스로 트랜잭션 (나 쓰레드 안정성을 보장하고 )데이터 연결과 종료를 책임짐 -->
+	<!-- 3.템플릿은 SqlSession인터페이스를 구현한 클래스로 트랜잭션 관리 (쓰레드 안정성을 보장하고 )데이터 연결과 종료를 책임짐 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>

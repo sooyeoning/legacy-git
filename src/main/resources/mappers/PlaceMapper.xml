@@ -6,8 +6,9 @@
 -->
 <mapper namespace="mapper.PlaceMapper">
 
+    <!-- db 컬럼명 규칙: 스네이크(writing_time) 방식 따른다-->
     <select id="selectOnePlace" parameterType="int" resultType="kr.co.urbancode.dto.PlaceDTO">
-        select contentId,
+        select contentId, <!-- content_id(db 컬럼명) as contentId(dto 필드명)-->
                title,
                areaCode,
                image1,

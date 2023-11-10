@@ -33,6 +33,7 @@
 	<context:annotation-config> ApplicationContext에 등록된 빈의 @Autowired, @Qualifier를 해석해서 가져다 쓰겠다
 	-->
 	<context:component-scan base-package="kr.co.urbancode" />
+
 </beans:beans>
 
 <!--

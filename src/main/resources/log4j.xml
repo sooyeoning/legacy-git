@@ -48,9 +48,9 @@
 
  *log4j: 가장 오래된 로깅 프레임워크
   구성: Logger(출력할 메시지를 Appender에게 전달), Appender(전달된 로그를 어디에 출력할지 결정), Layout(로그을 어떤 형식으로 출력할지 결정)
-  로그레벨: fatal-error-warn-info-debug-trace
+  로그레벨: fatal-error-warn-info-debug(개발단계)-trace(개발단계)
 
- *slf4j : logger의 추상체(인터페이스)
+ * slf4j : logger의 추상체(인터페이스)
  - slf4j 인터페이스를 사용해서 로깅하게 되면 구현체(logback, log4j)로 마이그레이션(변경) 할 수 있다
 
  *logback: log4j의 향상된 버전, slf4j의 구현체이자 spring boot의 기본 로그
