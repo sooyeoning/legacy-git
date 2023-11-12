@@ -27,4 +27,53 @@
         where contentId = #{contentId}
     </select>
 
+    <select id="selectPlaceList" resultType="hashMap">
+        select contentId,
+               title,
+               areaCode,
+               image1,
+               image2,
+               address,
+               mapx,
+               mapy,
+               contents,
+               theme,
+               writingtime,
+               likecnt,
+               viewcnt,
+               homepage,
+               contenttypeid
+        from place
+    </select>
+
+    <delete id="deletePlace" parameterType="int">
+        delete from place
+        where contentId = #{contentId}
+    </delete>
+
+    <update id="updatePlace" parameterType="kr.co.urbancode.dto.PlaceDTO">
+        update place
+        set  title=#{title},
+             areaCode=#{areaCode},
+             image1=#{image1},
+             image2=#{image2},
+             address=#{address},
+             mapx=#{mapx},
+             mapy=#{mapy},
+             contents=#{contents},
+             theme=#{theme},
+             likecnt=#{likecnt},
+             viewcnt=#{viewcnt},
+             homepage=#{homepage},
+             contenttypeid=#{contenttypeid}
+        where contentId=#{contentId}
+    </update>
+
+
+    <insert id="insertPlace" parameterType="kr.co.urbancode.dto.PlaceDTO">
+        insert into place
+        (contentId, title, areaCode, image1, image2, address, mapx, mapy, contents, theme, homepage, contenttypeid)
+        values
+        (#{contentId},#{title},#{areaCode},#{image1},#{image2}, #{address}, #{mapx}, #{mapy}, #{contents}, #{theme},#{homepage}, #{contenttypeid})
+    </insert>
 </mapper>

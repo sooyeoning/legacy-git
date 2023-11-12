@@ -20,6 +20,8 @@
 	<!-- mapping 속성: 주소창에 mapping속성값(url) 요청시 리소스 파일(html, css, js, image) 응답해준다 -->
 	<!-- location 속성: 리소스 파일이 있는 위치-->
 	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/" />
+	<resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/" />
 
 	<!-- InternalResourceViewResolver: 기본(디폴트) 뷰 리졸버로 jsp를 뷰로 사용할때 쓰인다 -->
 <!--	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
@@ -33,6 +35,8 @@
 	<context:annotation-config> ApplicationContext에 등록된 빈의 @Autowired, @Qualifier를 해석해서 가져다 쓰겠다
 	-->
 	<context:component-scan base-package="kr.co.urbancode" />
+
+	<beans:bean id="swagger2Config" class="kr.co.urbancode.common.SwaggerConfig" />
 
 </beans:beans>
 
